@@ -1,0 +1,210 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+### Question 0
+
+*  Draw a concepts diagram that uses all the following Github terminology 
+   * Include any missing keywords that will simplify the concepts diagrams 
+
+
+`Push`, `Repository`, `Clone`, `Pull`, `Pull Request`, `Branch`, `Merging`, `Github Client`, `README file`, `Private or Public`
+
+![image](C:/Users/gails/Desktop/Concept Map_Practical 2.png)
+
+
+#### Question 1
+
+`matrix(c(1,2,3,4,5,6) , nrow = 3)`
+
+* Running the expression produces the following matrix
+
+|  |  |
+|---|---|
+| 1 | 4 |
+| 2 | 5 |
+| 3 | 6 |
+
+* How can you modify the call to `matrix()` to produce the following matrix instead?
+
+|   | col_1 |  col_2 |
+| --- |---|---|
+| row_1 | 1 | 2 |
+| row_2 | 3 | 4 |
+| row_3 | 5 | 6 |
+
+* Note that you need to name the columns (col_1 and col_2) and name the rows (row_1, row_2, row_3)
+
+Hint: Use the `?` symbol to invoke the matrix documentation
+
+```{r}
+
+matrix <- matrix(c(1,2,3,4,5,6), nrow = 3, byrow = TRUE)
+
+colnames(matrix) <- c("col_1", "col_2")
+rownames(matrix) <- c("row_1", "row_2", "row_3")
+
+matrix
+
+```
+
+#### Question 1
+
+`matrix(c(1,2,3,4,5,6) , nrow = 3)`
+
+* Running the expression produces the following matrix
+
+|  |  |
+|---|---|
+| 1 | 4 |
+| 2 | 5 |
+| 3 | 6 |
+
+* How can you modify the call to `matrix()` to produce the following matrix instead?
+
+|   | col_1 |  col_2 |
+| --- |---|---|
+| row_1 | 1 | 2 |
+| row_2 | 3 | 4 |
+| row_3 | 5 | 6 |
+
+* Note that you need to name the columns (col_1 and col_2) and name the rows (row_1, row_2, row_3)
+
+Hint: Use the `?` symbol to invoke the matrix documentation
+
+```{r}
+
+matrix <- matrix(c(1,2,3,4,5,6), nrow = 3, byrow = TRUE)
+
+colnames(matrix) <- c("col_1", "col_2")
+rownames(matrix) <- c("row_1", "row_2", "row_3")
+
+matrix
+
+```
+
+#### Question 2
+
+* Load then sort the airquality data frame on its `Temp` and `Solar.R` columns in reverse order (largest to smallest values)
+  * The function to sort a data frame is called order
+* Display only the first 15 lines of your table
+
+```{r}
+
+aq <- airquality
+
+#sorting data frame by 'Temp', then `Solar.R`, in reverse order
+aq_rev1 <- aq[order(-aq[, 4], -aq[, 2]), ]
+
+#displaying first 15 lines
+head(x = aq_rev1, n = 15)
+
+
+#sorting data frame by 'Solar.R', then `Temp`, in reverse order
+aq_rev2 <- aq[order(-aq[, 2], -aq[, 4]), ]
+
+#displaying first 15 lines
+head(x = aq_rev2, n = 15)
+
+```
+
+#### Question 3
+
+* Sort the airquality data frame on its `Temp` in decreasing order and `Solar.R` in increasing order
+* Display only the first 15 lines of your table
+
+```{r}
+
+aq <- airquality
+
+#sorting data frame by 'Temp' in decreasing order, then `Solar.R` in increasing order
+aq_rev3 <- aq[order(-aq[, 4], aq[, 2]), ]
+
+#displaying first 15 lines
+head(x = aq_rev3, n = 15)
+
+
+#sorting data frame by `Solar.R` in increasing order, then `Temp` in decreasing order
+aq_rev4 <- aq[order(aq[, 2], -aq[, 4]), ]
+
+#displaying first 15 lines
+head(x = aq_rev4, n = 15)
+
+```
+
+#### Question 4
+
+* There are various ways to select a subset of observations from a data frame.
+
+* Consult your [R Reference Card](https://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf), see `Data Selection and Manipulation` section.
+  * What operations can you use to select all observations where the temperature is 72. Give at least two different answers to this question
+
+
+```{r}
+
+#selecting all observations where Temp = 72 with "which" function
+T72.w <- aq[which(aq$Temp == 72), ]
+head(T72.w)
+
+#selecting all observations where Temp = 72 with "subset" function
+T72.s <- subset(x = aq, Temp == 72)
+head(T72.s)
+
+```
+
+#### Question 6
+
+* You may have noticed when working with the `airqulity` data that some values show as `NA`
+ * `NA` stands for not available, or missing values.
+* A major part of data wrangling consists of cleaning missing values by either:
+  * Dropping the lines that have missing values
+   * Sometimes we can drop the column with missing values if the column is made of predominantly missing values
+  * Imputing the missing values, which uses educated guesses (or more complex algorithms) to fill the missing values
+  
+* Find and remove all rows that are missing values for the `Solar.R` or `Ozone` variables
+* Save the cleaned data to a new data frame called airquality_no_na
+  * How many lines have been removed?
+
+```{r}
+
+#creating dataframe with "NA" values from Solar.R and Ozone columns removed using "which" function
+airquality_no_na <- aq[which(aq$Solar.R != "NA", aq$Ozone != "NA" ), ]
+
+#7 lines were removed
+lines.removed = nrow(aq) - nrow(airquality_no_na)
+lines.removed
+```
+
+#### Question 7
+* Let's use a different strategy and impute the missing value.
+  * replace the missing values for Solar.R using that month's average.
+  * Example:
+    * The missing value for line 6 should be replaced with the average for month 5.
+    * The missing value for line 97 should be replaced with the average for month 8.
+
+```{r}
+#saving dataframe in variable
+aq <- airquality
+
+#Writing function that takes input "x" (month #) to subset aq into a smaller dataframe with data for only one month #. The function then calculates the mean of the Solar.R for that month, and replaces each "NA" value in the Solar.R column with the monthly mean.
+na.rm <- function(x) {
+  Mo <- aq[which(aq$Month == x), ]
+  AvgMo <- mean(Mo$Solar.R, na.rm = TRUE)
+  Mo[["Solar.R"]][is.na(Mo[["Solar.R"]])] <- AvgMo
+  print(Mo)
+}
+
+#apply function across all month # in dataframe
+Mo5 <- na.rm(x = 5)
+Mo6 <- na.rm(x = 6)
+Mo7 <- na.rm(x = 7)
+Mo8 <- na.rm(x = 8)
+Mo9 <- na.rm(x = 9)
+
+#concatenate dataframes
+new.df <- rbind(Mo5, Mo6, Mo7, Mo8, Mo9)
+new.df
+
+```
+
