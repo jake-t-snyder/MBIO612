@@ -20,7 +20,8 @@ attach an image here if you wish. The following syntax can be used to
 include an image in a Jupyter or notebook:
 
 <figure>
-<img src="C:/Users/gails/Desktop/Concept%20Map.jpeg" alt="image" />
+<img src="C:/Users/gails/Desktop/Concept%20Map_Practical%201.jpeg"
+alt="image" />
 <figcaption aria-hidden="true">image</figcaption>
 </figure>
 
