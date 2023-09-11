@@ -1,7 +1,6 @@
 ---
 output:
-  pdf_document: default
-  html_document: default
+ md_document
 ---
 ### Question 1
 
@@ -17,10 +16,7 @@ output:
 
 We can discuss your solution next week. However, you are welcome to attach an image here if you wish. The following syntax can be used to include an image in a Jupyter or notebook:
 
-```markdown
-
-```
-![image](C:/Users/gails/Desktop/Concept Map.jpeg)
+![image](C:/Users/gails/Desktop/Concept Map_Practical 1.jpeg)
 
 R users can, if they wish, include the URL where their image can be found.
 
