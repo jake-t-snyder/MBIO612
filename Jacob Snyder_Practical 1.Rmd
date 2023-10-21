@@ -1,6 +1,6 @@
 ---
 output:
- md_document
+ pdf_document
 ---
 ### Question 1
 
